@@ -34,19 +34,19 @@ const Form = () => {
   const [countryCode, setCountryCode] = useState('+91');
   const [country, setCountry] = useState('');
   const [city, setCity] = useState('');
-  const { setFormData } = useContext(FormContext);
+  const { formData, setFormData } = useContext(FormContext);
   const [input, setInput] = useState({
-    firstname: '',
-    lastname: '',
-    username: '',
-    email: '',
-    password: '',
-    phone: '',
-    countryCode: '',
-    country: '',
-    city: '',
-    pan: '',
-    aadhar: '',
+    firstname: formData.firstname,
+    lastname: formData.lastname,
+    username: formData.username,
+    email: formData.email,
+    password: formData.password,
+    phone: formData.phone,
+    countryCode: formData.countryCode,
+    country: formData.country,
+    city: formData.city,
+    pan: formData.pan,
+    aadhar: formData.aadhar,
   });
   const HandleInput = (e) => {
     const { name, value } = e.target;
@@ -125,7 +125,7 @@ const Form = () => {
     <div className='mt-10 min-h-[700px] bg-[#eca4fa] flex '>
 
       {/* Page Contents */}
-      <div className='mx-auto sm:w-[675px] md:w-[810px] lg:w-[1024px] flex flex-col justify-center items-center'>
+      <div className='mx-auto 2xsm:w-[290px] xsm:w-[390px] sm:w-[430px] md:w-[500px] flex flex-col justify-center items-center'>
 
         {/* Form Heading */}
         <p>Week 1 - Form and Form Validation</p>
@@ -152,7 +152,7 @@ const Form = () => {
           <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true}/>
 
           {/* Phone */}
-          <div className='grid grid-cols-3 gap-2'>
+          <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
 
             {/* Phone Country code */}
             <div className='col-span-1 flex flex-col gap-1'>
@@ -170,7 +170,7 @@ const Form = () => {
             </div>
 
             {/* Phone number */}
-            <div className='col-span-2'>
+            <div className='sm:col-span-2'>
               <FormInput inputName='phone' HandleInput={HandleInput} value={input.phone} isPhone={true} />
             </div>
 

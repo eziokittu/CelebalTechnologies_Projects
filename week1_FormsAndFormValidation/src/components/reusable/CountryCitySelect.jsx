@@ -49,7 +49,7 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
         >
           <option value='' disabled>Select Country</option>
           {countryOptions.map(option => (
-            <option key={option.value} value={option.value}>
+            <option key={`#_${option.value}`} value={option.value}>
               {option.label}
             </option>
           ))}
@@ -66,7 +66,7 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
         >
           <option value='' disabled>Select City</option>
           {cityOptions.map(option => (
-            <option key={option.value} value={option.value}>
+            <option key={`${country.value}_${option.value}`} value={option.value}>
               {option.label}
             </option>
           ))}
