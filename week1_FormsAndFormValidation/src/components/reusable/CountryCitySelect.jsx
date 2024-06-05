@@ -4,6 +4,7 @@ import { Country, City } from 'country-state-city';
 const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
   const [countryOptions, setCountryOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const [isCityLoading, setIsCityLoading] = useState(false);
 
   useEffect(() => {
     const countries = Country.getAllCountries();
@@ -16,16 +17,24 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
 
   useEffect(() => {
     if (country) {
+      // Reset cityOptions and set loading state before fetching new cities
+      setCityOptions([]);
+      setIsCityLoading(true);
+
       const cities = City.getCitiesOfCountry(country.value);
       const formattedCities = cities.map(city => ({
         value: city.name,
         label: city.name,
       }));
+
       setCityOptions(formattedCities);
+      setCity(null); // Reset city when country changes
+      setIsCityLoading(false); // Set loading state to false after updating city options
     } else {
       setCityOptions([]);
+      setCity(null); // Reset city when no country is selected
     }
-  }, [country]);
+  }, [country, setCity]);
 
   const handleCountryChange = (e) => {
     const selectedCountry = countryOptions.find(option => option.value === e.target.value);
@@ -39,17 +48,21 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
 
   return (
     <div className='grid grid-cols-2 gap-2 w-full'>
-      <div className='flex flex-col gap-1 '>
+      <div className='flex flex-col gap-1'>
         <label htmlFor='country'>Country</label>
         <select
           id='country'
-          className=''
+          className='rounded-lg px-2 py-1 bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50 appearance-none custom-select-icon'
           value={country ? country.value : ''}
           onChange={handleCountryChange}
         >
           <option value='' disabled>Select Country</option>
           {countryOptions.map(option => (
-            <option key={`#_${option.value}`} value={option.value}>
+            <option
+              key={`#_${option.value}`}
+              value={option.value}
+              className='text-purple-950 bg-pink-100'
+            >
               {option.label}
             </option>
           ))}
@@ -59,14 +72,18 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
         <label htmlFor='city'>City</label>
         <select
           id='city'
-          className=''
+          className='rounded-lg px-2 py-1 bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50 appearance-none custom-select-icon'
           value={city ? city.value : ''}
           onChange={handleCityChange}
-          disabled={!country}
+          disabled={!country || isCityLoading}
         >
           <option value='' disabled>Select City</option>
           {cityOptions.map(option => (
-            <option key={`${country.value}_${option.value}`} value={option.value}>
+            <option 
+              key={`${country ? country.value : ''}_${option.value}`} 
+              value={option.value}
+              className='text-purple-950 bg-pink-100'
+            >
               {option.label}
             </option>
           ))}

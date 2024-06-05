@@ -32,8 +32,8 @@ const Form = () => {
 
   // Handling inputs
   const [countryCode, setCountryCode] = useState('+91');
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState(null);
   const { formData, setFormData } = useContext(FormContext);
   const [input, setInput] = useState({
     firstname: formData.firstname,
@@ -50,7 +50,13 @@ const Form = () => {
   });
   const HandleInput = (e) => {
     const { name, value } = e.target;
-    setInput({ ...input, [name]: value });
+
+    if (name !== 'password'){
+      setInput({ ...input, [name]: value.trim() });
+    }
+    else {
+      setInput({ ...input, [name]: value });
+    }
   };
 
   // Form validating inputs
@@ -122,16 +128,16 @@ const Form = () => {
   };
 
   return (
-    <div className='mt-10 min-h-[700px] bg-[#eca4fa] flex '>
+    <div className='mt-8 py-8 min-h-[700px] bg-[#230c29] text-pink-100 flex '>
 
       {/* Page Contents */}
-      <div className='mx-auto 2xsm:w-[290px] xsm:w-[390px] sm:w-[430px] md:w-[500px] flex flex-col justify-center items-center'>
+      <div className='mx-auto 2xsm:w-[290px] xsm:w-[390px] sm:w-[430px] md:w-[500px] flex flex-col justify-center items-center my-auto h-fit bg-black/20 px-2 pt-8 rounded-lg shadow-[0_0_50px_pink] shadow-[#5c274d]'>
 
         {/* Form Heading */}
-        <p>Week 1 - Form and Form Validation</p>
+        <p className='text-lg sm:text-2xl'>Week 1 - Form and Form Validation</p>
 
         {/* FORM Body */}
-        <form onSubmit={FormSubmitHandler} className='flex flex-col gap-2'>
+        <form onSubmit={FormSubmitHandler} className='flex flex-col gap-2 my-8'>
 
           {/* Name input */}
           <div className='grid grid-cols-2 gap-2 '>
@@ -160,7 +166,7 @@ const Form = () => {
                 className=''
               >Country code</label>
               <PhoneInput
-                className=""
+                className="rounded-lg  bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50"
                 international
                 defaultCountry="IN"
                 value={countryCode}
@@ -193,7 +199,7 @@ const Form = () => {
           <FormInput inputName='aadhar' HandleInput={HandleInput} value={input.aadhar} />
 
           {/* Submit Button */}
-          <button type="submit">Submit</button>
+          <button type="submit" className='text-lg sm:text-2xl mx-auto w-fit mt-8 px-8 py-2 rounded-lg bg-pink-100 hover:bg-pink-300 text-purple-900 hover:text-[#230c29] transition-colors duration-300 font-bold'>Submit</button>
 
         </form>
 
