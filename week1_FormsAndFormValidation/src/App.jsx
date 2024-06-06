@@ -25,3 +25,5 @@ const App = () => {
 }
 
 export default App;
+
+// Website is hosted on NETLIFY - https://bodhisatta1999-celebaltech-week1.netlify.app

@@ -67,7 +67,7 @@ const FormInput = ({ inputName, HandleInput, value, isPhone, isPassword, hasInfo
       ) : (
         <div className='relative w-full'>
           <input
-            className="flex w-full rounded-lg px-2 py-1 bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50"
+            className={`flex w-full ${isPhone ? 'tracking-widest' : ''} rounded-lg px-2 py-1 bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50`}
             name={inputName}
             id={`input_${inputName}`}
             type={isPhone ? 'number' : 'text'}

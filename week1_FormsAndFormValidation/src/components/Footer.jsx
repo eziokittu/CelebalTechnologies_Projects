@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='bg-[#1e0823] border-t border-pink-300 px-2 sm:px-4 py-4 w-full text-pink-100 flex flex-col justify-center items-center tracking-tighter text-center text-sm sm:text-lg'>
+    <div className='fixed bottom-0 bg-[#1e0823] border-t border-pink-300 px-2 sm:px-4 py-2 w-full text-pink-100 flex flex-col justify-center items-center tracking-tighter text-center text-sm sm:text-base'>
       <div className='flex flex-wrap justify-center items-center gap-1'>
         <p>This is the Week 1 Assignment "Form and Form Validation" for</p>
         <p

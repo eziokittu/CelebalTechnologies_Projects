@@ -2,9 +2,10 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
 const nameRegex = /^[a-zA-Z]+$/;
+const usernameRegex = /^[a-zA-Z0-9]{4,32}$/;
 const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 const aadharRegex = /^[2-9]{1}[0-9]{11}$/;
-const countryCodeRegex = /^\+\d{1,3}$/;
+const countryCodeRegex = /^\d{1,3}$/;
 const phoneRegex = /^\d{10}$/;
 
 // Function to validate email
@@ -27,6 +28,14 @@ export const validatePassword = (password) => {
 export const validateName = (name, fieldName) => {
   if (!name.trim() || !nameRegex.test(name)) {
     return `Enter a valid ${fieldName}`;
+  }
+  return null;
+};
+
+// Function to validate name
+export const validateUsername = (name) => {
+  if (!name.trim() || !usernameRegex.test(name)) {
+    return `Enter a valid username`;
   }
   return null;
 };

@@ -7,6 +7,7 @@ import CountryCitySelect from '../reusable/CountryCitySelect';
 import PhoneCountryCodeSelect from '../reusable/PhoneCountryCodeSelect';
 import {
   validateName,
+  validateUsername,
   validateAadhar,
   validateCountryCode,
   validateEmail,
@@ -35,23 +36,59 @@ const Form = () => {
   };
 
   // Showing information
+  const usernameInfoHandler = () => {
+    setOverlayType('info');
+    setOverlayHeading("Information - Username");
+    const rules = [
+      '- Minimum length: 4',
+      '- Maximum length: 32',
+      '- No special characters are allowed',
+      '- Only contains alphabets and numbers'
+    ];
+    setOverlayBody(rules);
+    setOverlay(true);
+  }
   const passwordInfoHandler = () => {
     setOverlayType('info');
     setOverlayHeading("Information - Password");
     const rules = [
-      'Minimum length: 8',
-      'Maximum length: 32',
-      'At least 1 uppercase',
-      'At least 1 lowercase',
-      'At least 1 number',
-      'At least 1 special character'
+      '- Minimum length: 8',
+      '- Maximum length: 32',
+      '- At least 1 uppercase',
+      '- At least 1 lowercase',
+      '- At least 1 number',
+      '- At least 1 special character'
+    ];
+    setOverlayBody(rules);
+    setOverlay(true);
+  }
+  const panInfoHandler = () => {
+    setOverlayType('info');
+    setOverlayHeading("Information - PAN Number");
+    const rules = [
+      '- Exactly 10 characters',
+      '- Firt 5 characters must be uppercase',
+      '- The next 4 are numbers',
+      '- The last character is an uppercase',
+      '- No special characters are allowed'
+    ];
+    setOverlayBody(rules);
+    setOverlay(true);
+  }
+  const aadharInfoHandler = () => {
+    setOverlayType('info');
+    setOverlayHeading("Information - Aadhar Number");
+    const rules = [
+      '- Exactly 12 numbers',
+      '- No alphabets or special characters are allowed',
+      '- Should not start with 0 or 1'
     ];
     setOverlayBody(rules);
     setOverlay(true);
   }
 
   // Handling inputs
-  const [countryCode, setCountryCode] = useState('+91');
+  const [countryCode, setCountryCode] = useState('91');
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   
@@ -99,7 +136,7 @@ const Form = () => {
     const lastnameError = validateName(input.lastname, 'last name');
     if (lastnameError) alerts.push(lastnameError);
 
-    const usernameError = validateName(input.username, 'user name');
+    const usernameError = validateUsername(input.username);
     if (usernameError) alerts.push(usernameError);
 
     const countryError = validateCountry(country);
@@ -116,6 +153,10 @@ const Form = () => {
 
     const countryCodeError = validateCountryCode(countryCode);
     if (countryCodeError) alerts.push(countryCodeError);
+
+    if (passwordError || panError || aadharError || usernameError){
+      alerts.push("- click the 🛈 icon to view rules for 'Username, Password, PAN, Aadhar'");
+    }
 
     return alerts;
   };
@@ -149,13 +190,16 @@ const Form = () => {
   };
 
   return (
-    <div className='mt-8 py-8 min-h-[700px] bg-[#230c29] text-pink-100 flex '>
+    <div className='mt-8  min-h-[700px] bg-[#230c29] text-pink-100 flex flex-col'>
+
+      {/* A transition gradient for keeping distance from the footer */}
+      <div className='h-20 bg-gradient-to-b from-[#120715] to-transparent'></div>
 
       {/* Page Contents */}
       <div className='mx-auto 2xsm:w-[290px] xsm:w-[390px] sm:w-[430px] md:w-[500px] flex flex-col justify-center items-center my-auto h-fit bg-black/20 px-2 pt-8 rounded-lg shadow-[0_0_50px_pink] shadow-[#5c274d]'>
 
         {/* Form Heading */}
-        <p className='text-lg sm:text-2xl'>Week 1 - Form and Form Validation</p>
+        <p className='text-lg sm:text-2xl underline underline-offset-4 text-center'>Week 1 - Forms and Form Validation</p>
 
         {/* FORM Body */}
         <form onSubmit={FormSubmitHandler} className='flex flex-col gap-2 my-8'>
@@ -170,7 +214,7 @@ const Form = () => {
           </div>
 
           {/* Username input */}
-          <FormInput inputName='username' HandleInput={HandleInput} value={input.username} />
+          <FormInput inputName='username' HandleInput={HandleInput} value={input.username} hasInfo={true} infoHandler={usernameInfoHandler}/>
 
           {/* Email input */}
           <FormInput inputName='email' HandleInput={HandleInput} value={input.email} />
@@ -200,17 +244,23 @@ const Form = () => {
           </div>
 
           {/* PAN number input */}
-          <FormInput inputName='pan' HandleInput={HandleInput} value={input.pan} />
+          <FormInput inputName='pan' HandleInput={HandleInput} value={input.pan} hasInfo={true} infoHandler={panInfoHandler} />
 
           {/* Aadhar number input */}
-          <FormInput inputName='aadhar' HandleInput={HandleInput} value={input.aadhar} />
+          <FormInput inputName='aadhar' HandleInput={HandleInput} value={input.aadhar} hasInfo={true} infoHandler={aadharInfoHandler} />
 
           {/* Submit Button */}
           <button type="submit" className='text-lg sm:text-2xl mx-auto w-fit mt-8 px-8 py-2 rounded-lg bg-pink-100 hover:bg-pink-300 text-purple-900 hover:text-[#230c29] transition-colors duration-300 font-bold'>Submit</button>
 
+          {/* Clear Form Button */}
+          <div className='text-lg mx-auto w-fit mt-4 px-2 py-1 rounded-lg bg-red-800 hover:bg-red-900 text-pink-199 hover:text-white transition-colors duration-300 font-bold cursor-pointer' onClick={() => (window.location.reload())}>Clear Form</div>
+
         </form>
 
       </div>
+
+      {/* A transition gradient for keeping distance from the footer */}
+      <div className='h-32 bg-gradient-to-t from-[#120715] to-transparent'></div>
 
       {/* Error / Warning / Message overlay  */}
       {overlay && (<CustomOverlay handleOkay={HandleExitOverlay} overlayHeading={overlayHeading} overlayBody={overlayBody} type={overlayType} />)}
