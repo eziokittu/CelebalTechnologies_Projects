@@ -4,8 +4,7 @@ import { FormContext } from '../reusable/FormContext';
 import FormInput from '../reusable/FormInput';
 import ErrorOverlay from '../ErrorOverlay';
 import CountryCitySelect from '../reusable/CountryCitySelect';
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
+import PhoneCountryCodeSelect from '../reusable/PhoneCountryCodeSelect';
 import {
   validateName,
   validateAadhar,
@@ -51,7 +50,7 @@ const Form = () => {
   const HandleInput = (e) => {
     const { name, value } = e.target;
 
-    if (name !== 'password'){
+    if (name !== 'password') {
       setInput({ ...input, [name]: value.trim() });
     }
     else {
@@ -103,7 +102,7 @@ const Form = () => {
   const navigate = useNavigate();
   const FormSubmitHandler = (e) => {
     e.preventDefault();
-    
+
     // if there are validation errors then error overlay is rendered
     const validationAlerts = validateForm(input);
     if (validationAlerts.length > 0) {
@@ -122,7 +121,7 @@ const Form = () => {
 
     // updating the context variables with the local variables since there are no validation errors
     setFormData(formDataWithLocationAndPhone);
-    
+
     // Routing to the display page
     navigate('/display');
   };
@@ -155,30 +154,16 @@ const Form = () => {
           <FormInput inputName='email' HandleInput={HandleInput} value={input.email} />
 
           {/* Password input */}
-          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true}/>
+          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true} />
 
           {/* Phone */}
-          <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+          <div className='grid grid-cols-2 gap-2'>
 
             {/* Phone Country code */}
-            <div className='col-span-1 flex flex-col gap-1'>
-              <label
-                className=''
-              >Country code</label>
-              <PhoneInput
-                className="rounded-lg  bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50"
-                international
-                defaultCountry="IN"
-                value={countryCode}
-                onChange={setCountryCode}
-                maxLength={4}
-              />
-            </div>
+            <PhoneCountryCodeSelect value={countryCode} handleValue={setCountryCode} />
 
             {/* Phone number */}
-            <div className='sm:col-span-2'>
-              <FormInput inputName='phone' HandleInput={HandleInput} value={input.phone} isPhone={true} />
-            </div>
+            <FormInput inputName='phone' HandleInput={HandleInput} value={input.phone} isPhone={true} />
 
           </div>
 

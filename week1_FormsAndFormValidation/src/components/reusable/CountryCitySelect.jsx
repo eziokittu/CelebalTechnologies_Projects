@@ -30,15 +30,18 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
       setCityOptions(formattedCities);
       setCity(null); // Reset city when country changes
       setIsCityLoading(false); // Set loading state to false after updating city options
+      // console.log("DEBUG 1");
     } else {
       setCityOptions([]);
       setCity(null); // Reset city when no country is selected
+      // console.log("DEBUG 2");
     }
   }, [country, setCity]);
 
   const handleCountryChange = (e) => {
     const selectedCountry = countryOptions.find(option => option.value === e.target.value);
     setCountry(selectedCountry);
+    setCityOptions([]);
   };
 
   const handleCityChange = (e) => {
@@ -57,9 +60,9 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
           onChange={handleCountryChange}
         >
           <option value='' disabled>Select Country</option>
-          {countryOptions.map(option => (
+          {countryOptions.map((option, num) => (
             <option
-              key={`#_${option.value}`}
+              key={`country_${option.value}_${num}`}
               value={option.value}
               className='text-purple-950 bg-pink-100'
             >
@@ -72,15 +75,15 @@ const CountryCitySelect = ({ country, setCountry, city, setCity }) => {
         <label htmlFor='city'>City</label>
         <select
           id='city'
-          className='rounded-lg px-2 py-1 bg-pink-100 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50 appearance-none custom-select-icon'
+          className='rounded-lg px-2 py-1 bg-pink-100 disabled:bg-pink-200 text-[#1e0823] border-2 border-pink-300 focus:outline-none focus:border-pink-600 focus:bg-pink-50 appearance-none custom-select-icon'
           value={city ? city.value : ''}
           onChange={handleCityChange}
           disabled={!country || isCityLoading}
         >
           <option value='' disabled>Select City</option>
-          {cityOptions.map(option => (
+          {cityOptions.map((option, num) => (
             <option 
-              key={`${country ? country.value : ''}_${option.value}`} 
+              key={`city_${option.value}_${num}`} 
               value={option.value}
               className='text-purple-950 bg-pink-100'
             >
