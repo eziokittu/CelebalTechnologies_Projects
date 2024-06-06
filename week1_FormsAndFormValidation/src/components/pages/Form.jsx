@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContext } from '../reusable/FormContext';
 import FormInput from '../reusable/FormInput';
-import ErrorOverlay from '../ErrorOverlay';
+import ErrorOverlay from '../DisplayOverlay';
 import CountryCitySelect from '../reusable/CountryCitySelect';
 import PhoneCountryCodeSelect from '../reusable/PhoneCountryCodeSelect';
 import {
@@ -19,15 +19,34 @@ import {
 
 const Form = () => {
   // For error overlay
-  const [error, setError] = useState(false);
-  const [errorHeading, setErrorHeading] = useState('Invalid Input Error');
-  const [errorBody, setErrorBody] = useState([]);
-  const DisplayError = () => {
-    setError(true);
+  const [overlay, setOverlay] = useState(false);
+  const [overlayType, setOverlayType] = useState('error');
+  const [overlayHeading, setOverlayHeading] = useState('Invalid Input Error');
+  const [overlayBody, setOverlayBody] = useState([]);
+  const DisplayOverlay = () => {
+    setOverlay(true);
   };
-  const HandleError = () => {
-    setError(false);
+  const HandleExitOverlay = () => {
+    setOverlay(false);
   };
+
+  // Showing information
+  const infoHandler = (e) => {
+    // if (e.name === 'password') {
+      setOverlayType('info');
+      setOverlayHeading("Information - Password");
+      let rules = [];
+      rules.push('Minimum length: 8');
+      rules.push('Maximum length: 32');
+      rules.push('At least 1 uppercase');
+      rules.push('At least 1 lowercase');
+      rules.push('At least 1 number');
+      rules.push('At least 1 special character');
+      setOverlayBody(rules);
+      setOverlay(true);
+      return;
+    // }
+  }
 
   // Handling inputs
   const [countryCode, setCountryCode] = useState('+91');
@@ -106,8 +125,8 @@ const Form = () => {
     // if there are validation errors then error overlay is rendered
     const validationAlerts = validateForm(input);
     if (validationAlerts.length > 0) {
-      setErrorBody(validationAlerts);
-      DisplayError();
+      setOverlayBody(validationAlerts);
+      DisplayOverlay();
       return;
     }
 
@@ -154,7 +173,7 @@ const Form = () => {
           <FormInput inputName='email' HandleInput={HandleInput} value={input.email} />
 
           {/* Password input */}
-          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true} />
+          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true} hasInfo={true} infoHandler={infoHandler}/>
 
           {/* Phone */}
           <div className='grid grid-cols-2 gap-2'>
@@ -191,7 +210,7 @@ const Form = () => {
       </div>
 
       {/* Error / Warning / Message overlay  */}
-      {error && (<ErrorOverlay handleError={HandleError} errorHeading={errorHeading} errorBody={errorBody} />)}
+      {overlay && (<DisplayOverlay handleOkay={HandleExitOverlay} overlayHeading={overlayHeading} overlayBody={overlayBody} type={overlayType} />)}
 
     </div>
   );

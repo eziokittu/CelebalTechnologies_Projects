@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FormInput = ({ inputName, HandleInput, value, isPhone, isPassword }) => {
+const FormInput = ({ inputName, HandleInput, value, isPhone, isPassword, hasInfo, infoHandler }) => {
   const Capitalize = (str) => {
     if (typeof str !== 'string') {
       return str;
@@ -24,9 +24,21 @@ const FormInput = ({ inputName, HandleInput, value, isPhone, isPassword }) => {
   return (
     <div className='flex flex-col gap-1 z-0'>
       {/* label */}
-      <label className='' htmlFor={`input_${inputName}`}>
-        {Capitalize(inputName)}
-      </label>
+      {hasInfo ? (
+        <div className='flex gap-4'>
+          <label className='' htmlFor={`input_${inputName}`}>
+            {Capitalize(inputName)}
+          </label>
+          <div className='cursor-pointer' onClick={infoHandler}>
+            <svg className='w-6 h-6 text-pink-200 hover:rotate-12 hover:animate-[pulse_0.5s_ease-in-out_infinite]' viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Warning / Info"> <path id="Vector" d="M12 11V16M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21ZM12.0498 8V8.1L11.9502 8.1002V8H12.0498Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g> </g></svg>
+          </div>
+        </div>
+      ) : (
+        <label className='' htmlFor={`input_${inputName}`}>
+          {Capitalize(inputName)}
+        </label>
+      )}
+
 
       {/* Input field */}
       {isPassword ? (
