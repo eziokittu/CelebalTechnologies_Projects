@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContext } from '../reusable/FormContext';
 import FormInput from '../reusable/FormInput';
-import ErrorOverlay from '../DisplayOverlay';
+import CustomOverlay from '../CustomOverlay';
 import CountryCitySelect from '../reusable/CountryCitySelect';
 import PhoneCountryCodeSelect from '../reusable/PhoneCountryCodeSelect';
 import {
@@ -23,36 +23,38 @@ const Form = () => {
   const [overlayType, setOverlayType] = useState('error');
   const [overlayHeading, setOverlayHeading] = useState('Invalid Input Error');
   const [overlayBody, setOverlayBody] = useState([]);
+  const { formData, setFormData } = useContext(FormContext);
+  const navigate = useNavigate();
+
   const DisplayOverlay = () => {
     setOverlay(true);
   };
   const HandleExitOverlay = () => {
     setOverlay(false);
+    setOverlayType('error');
   };
 
   // Showing information
-  const infoHandler = (e) => {
-    // if (e.name === 'password') {
-      setOverlayType('info');
-      setOverlayHeading("Information - Password");
-      let rules = [];
-      rules.push('Minimum length: 8');
-      rules.push('Maximum length: 32');
-      rules.push('At least 1 uppercase');
-      rules.push('At least 1 lowercase');
-      rules.push('At least 1 number');
-      rules.push('At least 1 special character');
-      setOverlayBody(rules);
-      setOverlay(true);
-      return;
-    // }
+  const passwordInfoHandler = () => {
+    setOverlayType('info');
+    setOverlayHeading("Information - Password");
+    const rules = [
+      'Minimum length: 8',
+      'Maximum length: 32',
+      'At least 1 uppercase',
+      'At least 1 lowercase',
+      'At least 1 number',
+      'At least 1 special character'
+    ];
+    setOverlayBody(rules);
+    setOverlay(true);
   }
 
   // Handling inputs
   const [countryCode, setCountryCode] = useState('+91');
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
-  const { formData, setFormData } = useContext(FormContext);
+  
   const [input, setInput] = useState({
     firstname: formData.firstname,
     lastname: formData.lastname,
@@ -66,6 +68,7 @@ const Form = () => {
     pan: formData.pan,
     aadhar: formData.aadhar,
   });
+
   const HandleInput = (e) => {
     const { name, value } = e.target;
 
@@ -118,13 +121,13 @@ const Form = () => {
   };
 
   // Submitting the form
-  const navigate = useNavigate();
   const FormSubmitHandler = (e) => {
     e.preventDefault();
 
     // if there are validation errors then error overlay is rendered
     const validationAlerts = validateForm(input);
     if (validationAlerts.length > 0) {
+      setOverlayHeading('Invalid input Error')
       setOverlayBody(validationAlerts);
       DisplayOverlay();
       return;
@@ -173,7 +176,7 @@ const Form = () => {
           <FormInput inputName='email' HandleInput={HandleInput} value={input.email} />
 
           {/* Password input */}
-          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true} hasInfo={true} infoHandler={infoHandler}/>
+          <FormInput inputName='password' HandleInput={HandleInput} value={input.password} isPassword={true} hasInfo={true} infoHandler={passwordInfoHandler} />
 
           {/* Phone */}
           <div className='grid grid-cols-2 gap-2'>
@@ -210,7 +213,7 @@ const Form = () => {
       </div>
 
       {/* Error / Warning / Message overlay  */}
-      {overlay && (<DisplayOverlay handleOkay={HandleExitOverlay} overlayHeading={overlayHeading} overlayBody={overlayBody} type={overlayType} />)}
+      {overlay && (<CustomOverlay handleOkay={HandleExitOverlay} overlayHeading={overlayHeading} overlayBody={overlayBody} type={overlayType} />)}
 
     </div>
   );

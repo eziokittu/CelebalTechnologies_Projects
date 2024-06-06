@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DisplayOverlay = ({ overlayHeading, overlayBody, handleOkay, type }) => {
+const CustomOverlay = ({ overlayHeading, overlayBody, handleOkay, type }) => {
   return (
     <div className="fixed top-0 w-screen h-screen z-20 bg-black/85 text-white flex justify-center ">
       <div className="flex flex-col mt-12">
@@ -27,4 +27,4 @@ const DisplayOverlay = ({ overlayHeading, overlayBody, handleOkay, type }) => {
   );
 };
 
-export default DisplayOverlay;
+export default CustomOverlay;
