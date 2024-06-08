@@ -5,7 +5,7 @@ const nameRegex = /^[a-zA-Z]+$/;
 const usernameRegex = /^[a-zA-Z0-9]{4,32}$/;
 const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 const aadharRegex = /^[2-9]{1}[0-9]{11}$/;
-const countryCodeRegex = /^\d{1,3}$/;
+const countryCodeRegex = /^\d{1,4}$/;
 const phoneRegex = /^\d{10}$/;
 
 // Function to validate email

@@ -8,7 +8,7 @@ const CustomOverlay = ({ overlayHeading, overlayBody, handleOkay, type }) => {
       <div className="flex flex-col mt-12 mx-4 sm:w-[400px]">
 
         {/* Overlay heading */}
-        <div className={`${type === 'error' ? 'bg-red-800' : 'bg-blue-800'} text-center flex gap-4 items-center justify-center p-4 rounded-t-lg`}
+        <div className={`${type === 'error' ? 'bg-[#ff0000]' : 'bg-blue-800'} text-center flex gap-4 items-center justify-center p-4 rounded-t-lg`}
         >
           {/* icon */}
           {type === 'info' ? (

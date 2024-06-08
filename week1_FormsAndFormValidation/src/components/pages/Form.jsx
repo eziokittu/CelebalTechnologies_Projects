@@ -22,7 +22,7 @@ const Form = () => {
   // For error overlay
   const [overlay, setOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState('error');
-  const [overlayHeading, setOverlayHeading] = useState('Invalid Input Error');
+  const [overlayHeading, setOverlayHeading] = useState('Invalid Input Error!');
   const [overlayBody, setOverlayBody] = useState([]);
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
@@ -168,7 +168,7 @@ const Form = () => {
     // if there are validation errors then error overlay is rendered
     const validationAlerts = validateForm(input);
     if (validationAlerts.length > 0) {
-      setOverlayHeading('Invalid input Error')
+      setOverlayHeading('Invalid Input Error!')
       setOverlayBody(validationAlerts);
       DisplayOverlay();
       return;
@@ -253,7 +253,7 @@ const Form = () => {
           <button type="submit" className='text-lg sm:text-2xl mx-auto w-fit mt-8 px-8 py-2 rounded-lg bg-pink-100 hover:bg-pink-300 text-purple-900 hover:text-[#230c29] transition-colors duration-300 font-bold'>Submit</button>
 
           {/* Clear Form Button */}
-          <div className='text-lg mx-auto w-fit mt-4 px-2 py-1 rounded-lg bg-red-800 hover:bg-red-900 text-pink-199 hover:text-white transition-colors duration-300 font-bold cursor-pointer' onClick={() => (window.location.reload())}>Clear Form</div>
+          <div className='text-lg mx-auto w-fit mt-4 px-2 py-1 rounded-lg bg-[#000000] hover:bg-[#3b1842] text-pink-100 hover:text-white transition-colors duration-300 font-bold cursor-pointer' onClick={() => (window.location.reload())}>Clear Form</div>
 
         </form>
 
